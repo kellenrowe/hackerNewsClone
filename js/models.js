@@ -71,28 +71,31 @@ class StoryList {
    * Returns the new Story instance
    */
   async addStory(user, newStory) {
-    // UNIMPLEMENTED: complete this function!
     const response = await axios({
       url: `${BASE_URL}/stories`,
       method: "POST",
       data: {
-        "token": user.loginToken,
-        "story": {
-          "author": newStory.author,
-          "title": newStory.title,
-          "url": newStory.url
+        token: user.loginToken,
+        story: {
+          author: newStory.author,
+          title: newStory.title,
+          url: newStory.url
         }
       }
-      });
-
-    const story = new Story({
-      title: response.story.title,
-      author: response.story.author,
-      url: response.story.url,
-      username: response.story.username,
-      storyId: response.story.storyId,
-      createdAt: response.story.createdAt
     });
+    // console.log('response from Post request addStory:',response);
+    const storyData = response.data.story;
+    const newStoryInstance = new Story({
+      title: storyData.title,
+      author: storyData.author,
+      url: storyData.url,
+      username: storyData.username,
+      storyId: storyData.storyId,
+      createdAt: storyData.createdAt
+    });
+    // TO NOTE: THIS ADDS TO END OF STORIES
+    this.stories.push(newStoryInstance);
+    return newStoryInstance;
   }
 }
 
@@ -108,13 +111,13 @@ class User {
    */
 
   constructor({
-                username,
-                name,
-                createdAt,
-                favorites = [],
-                ownStories = []
-              },
-              token) {
+    username,
+    name,
+    createdAt,
+    favorites = [],
+    ownStories = []
+  },
+    token) {
     this.username = username;
     this.name = name;
     this.createdAt = createdAt;
