@@ -48,3 +48,33 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
+
+
+/** 
+ * handles submission of submit form. 
+ * Gets all the data from the form, calls addStory on StoryList 
+ * Receives the Story instance back 
+ * Puts new story in DOM. 
+ * */
+function storyFromSubmitAndDisplay(evt) {
+  console.debug("storyFromSubmitAndDisplay");
+  
+  evt.preventDefault();
+
+  const author = $('#author-name').val();
+  const title = $('#title-name').val();
+  const url = $('#url-name').val();
+
+  const newStory = {
+    author,
+    title,
+    url
+  };
+
+  const newStoryIns = storyList.addStory(currentUser, newStory);
+
+  putStoriesOnPage();
+  $submitForm.trigger("reset");
+}
+
+$('#submit-btn').on('submit', storyFromSubmitAndDisplay);

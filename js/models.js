@@ -85,7 +85,7 @@ class StoryList {
     });
     // console.log('response from Post request addStory:',response);
     const storyData = response.data.story;
-    const newStoryInstance = new Story({
+    const newStoryIns = new Story({
       title: storyData.title,
       author: storyData.author,
       url: storyData.url,
@@ -94,8 +94,8 @@ class StoryList {
       createdAt: storyData.createdAt
     });
     // TO NOTE: THIS ADDS TO END OF STORIES
-    this.stories.push(newStoryInstance);
-    return newStoryInstance;
+    this.stories.unshift(newStoryIns);
+    return newStoryIns;
   }
 }
 
