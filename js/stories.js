@@ -20,11 +20,21 @@ async function getAndShowStoriesOnStart() {
 function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
+  let starType;
+
+  if (!(currentUser)) {
+    starType = "far";
+    console.log('no current user');
+  } else {
+    console.log('current user')
+    starType = (currentUser.checkIfInFavorites(story)) ? "fas" : "far";
+  }
+
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
         <span class="star">
-        <i class="far fa-star"></i>
+        <i class="${starType} fa-star"></i>
         </span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
@@ -36,8 +46,19 @@ function generateStoryMarkup(story) {
     `);
 }
 
-function generateFavoritesMarkup(favorite) {
+/* Gets list of current user favorites, generates HTML, and puts on page */
+// REFACTOR NOTE: could we combine the two below functions?
 
+function putFavoritesOnPage() {
+  console.debug("");
+
+  $favoriteStoriesList.empty();
+
+  for (let fav of currentUser.favorites) {
+    const $fav = generateStoryMarkup(fav)
+    $favoriteStoriesList.append($fav);
+  }
+  $favoriteStoriesList.show();
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
@@ -64,9 +85,9 @@ function putStoriesOnPage() {
  * */
 async function storySubmitAndDisplay(evt) {
   console.debug("storyFromSubmitAndDisplay");
-  
+
   evt.preventDefault();
-  
+
   const author = $('#create-author').val();
   const title = $('#create-title').val();
   const url = $('#create-url').val();
@@ -93,14 +114,17 @@ $submitForm.on('submit', storySubmitAndDisplay);
 and story will be added to currentUser's favorites.  */
 
 function favoriteStoryAfterClick(evt) {
-  const star = $(evt.target)
+  const star = $(evt.target);
   star.toggleClass('far fas');
 
   const storyID = star.closest('li').attr('id');
-  console.log('storyID', storyID);
 
-  currentUser.addStoryToFavorites(storyID);
-
+  let story = storyList.findStoryInstance(storyID);
+  if (currentUser.checkIfInFavorites(story)) {
+    currentUser.removeStoryFromFavorites(storyID);
+  } else {
+    currentUser.addStoryToFavorites(storyID);
+  }
 }
 
 $allStoriesList.on('click', '.star', favoriteStoryAfterClick)

@@ -17,7 +17,7 @@ $body.on("click", "#nav-all", navAllStories);
 function navLoginClick(evt) {
   console.debug("navLoginClick", evt);
   hidePageComponents();
-  $loginForm.show(); 
+  $loginForm.show();
   $signupForm.show();
 }
 
@@ -46,7 +46,7 @@ $navSubmit.on("click", navSubmitClick);
 function showFavorites(evt) {
   console.debug("showFavorites", evt);
   hidePageComponents();
-  $favoriteStoriesList.show();
+  putFavoritesOnPage();
 }
 
 $navFavorites.on('click', showFavorites);

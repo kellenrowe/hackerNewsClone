@@ -21,9 +21,6 @@ async function login(evt) {
 
   $loginForm.trigger("reset");
 
-  // remember favorites for star shading
-  await currentUser.getFavorites();
-
   saveUserCredentialsInLocalStorage();
   updateUIOnUserLogin();
 }
@@ -111,7 +108,9 @@ function saveUserCredentialsInLocalStorage() {
 function updateUIOnUserLogin() {
   console.debug("updateUIOnUserLogin");
 
-  $allStoriesList.show();
+  putStoriesOnPage();
+  $navLeft.show();
+
 
   updateNavOnLogin();
 }

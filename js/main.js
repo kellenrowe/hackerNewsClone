@@ -14,6 +14,8 @@ const $navSubmit = $("#nav-submit");
 const $submitBtn = $("#submit-btn");
 const $navFavorites = $("#nav-favorites");
 
+const $navLeft = $(".nav-left");
+
 const $navLogin = $("#nav-login");
 const $navUserProfile = $("#nav-user-profile");
 const $navLogOut = $("#nav-logout");

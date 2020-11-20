@@ -66,7 +66,7 @@ class StoryList {
     return new StoryList(stories);
   }
 
-  
+
 
   /** Adds story data to API, makes a Story instance, adds it to story list.
    * - user - the current instance of User who will post the story
@@ -102,6 +102,17 @@ class StoryList {
     user.ownStories.unshift(story);
     this.stories.push(story);
     return story;
+  }
+
+  /* Given a story ID, finds the corresponding instance of Story */
+
+  findStoryInstance(storyID) {
+    // refactoring: see if you can do this using .find() or other array method
+    for (let story of this.stories) {
+      if (story.storyId === storyID) {
+        return story
+      }
+    }
   }
 }
 
@@ -191,10 +202,10 @@ class User {
   send a post request to the server to update the user favorites information. */
 
   async addStoryToFavorites(storyID) {
-    
+
     // finds instance of story
-    const favoriteStory = this.findStoryInstance(storyID);
-    
+    const favoriteStory = storyList.findStoryInstance(storyID);
+
     // update user.favorites
     this.favorites.unshift(favoriteStory);
 
@@ -207,26 +218,29 @@ class User {
     console.log('response from favorites request', response);
   }
 
-  /* Given a story ID, finds the corresponding instance of Story */
-  findStoryInstance(storyID) {
-    // refactoring: see if you can do this using .find() or other array method
-    for (let story of storyList.stories) {
-      if (story.storyId === storyID) {
-        return story
-      }
-    }
-  }
 
-  async getFavorites() {
+  /* Given a storyID, update current favorites array and send a delete request
+  to server to update user favorites information */
+  // REFACTOR: Potentially combine remove/ add story to favorites and 
+  // potentially move some of the code into stories.js
+
+  async removeStoryFromFavorites(storyID) {
+    // finds instance of story
+    const favoriteStory = storyList.findStoryInstance(storyID);
+    const indexFav = this.favorites.indexOf(favoriteStory)
+    this.favorites.splice(indexFav, 1);
+
     const response = await axios({
-      url: `${BASE_URL}/users/${this.username}`,
-      method: "GET",
+      url: `${BASE_URL}/users/${currentUser.username}/favorites/${storyID}`,
+      method: "DELETE",
       params: { token: this.loginToken },
     });
-    // console.log('response.data ', response.data);
-    
-    const tempFavArray = response.data.user.favorites;
-
-    this.favorites = tempFavArray.map(fav => this.findStoryInstance(fav.storyId));
   }
+
+  /* Takes in a story and checks if that story is in the user instance's favorites */
+
+  checkIfInFavorites(story) {
+    return this.favorites.some(fav => fav.storyId === story.storyId);
+  }
+
 }
