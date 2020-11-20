@@ -23,6 +23,7 @@ class Story {
 
   getHostName() {
     // UNIMPLEMENTED: complete this function!
+    // this.url
     return "hostname.com";
   }
 }

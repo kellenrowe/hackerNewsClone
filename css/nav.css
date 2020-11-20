@@ -28,6 +28,7 @@ nav {
 }
 
 .nav-left a{
-  border-left: 2px solid black;
-  padding-left: 4%;
+  border-left: 2px solid;
+  border-color: inherit;
+  padding: 0 1% 0 4%;
 }
