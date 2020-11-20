@@ -111,7 +111,7 @@ $submitForm.on('submit', storySubmitAndDisplay);
 
 /* 
 * handles click of star next to story. When clicked, star will  change
-and story will be added to currentUser's favorites.  */
+and story will be added or removed from currentUser's favorites.  */
 
 function favoriteStoryAfterClick(evt) {
   const star = $(evt.target);

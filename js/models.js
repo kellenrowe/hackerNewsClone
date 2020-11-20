@@ -215,20 +215,18 @@ class User {
       method: "POST",
       params: { token: this.loginToken },
     });
-    console.log('response from favorites request', response);
+    // console.log('response from favorites request', response);
   }
 
 
   /* Given a storyID, update current favorites array and send a delete request
   to server to update user favorites information */
-  // REFACTOR: Potentially combine remove/ add story to favorites and 
-  // potentially move some of the code into stories.js
+  // REFACTOR: keep add/ remove, but create a utility function that just makes the response
 
   async removeStoryFromFavorites(storyID) {
-    // finds instance of story
-    const favoriteStory = storyList.findStoryInstance(storyID);
-    const indexFav = this.favorites.indexOf(favoriteStory)
-    this.favorites.splice(indexFav, 1);
+    this.favorites = this.favorites.filter( function(val) {
+      return val.storyId !== storyID
+    });
 
     const response = await axios({
       url: `${BASE_URL}/users/${currentUser.username}/favorites/${storyID}`,
