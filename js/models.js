@@ -73,7 +73,7 @@ class StoryList {
    * Returns the new Story instance
    */
 
-   
+
   async addStory(user, newStory) {
     // console.log('newStory', newStory);
 
@@ -91,10 +91,10 @@ class StoryList {
       url: `${BASE_URL}/stories`,
       method: "POST",
       data
-      }
+    }
     );
 
-    console.log('response from Post request addStory:',response);
+    console.log('response from Post request addStory:', response);
     const storyData = response.data.story;
     const story = new Story(storyData);
     user.ownStories.unshift(story);
@@ -182,6 +182,38 @@ class User {
     } catch (err) {
       console.error("loginViaStoredCredentials failed", err);
       return null;
+    }
+  }
+
+
+  /* Given a storyID, update the currentUser favorites array and
+  send a post request to the server to update the user favorites information. */
+
+  async addStoryToFavorites(storyID) {
+    
+    // finds instance of story
+    const favoriteStory = this.findStoryInstance(storyID);
+    
+    // update user.favorites
+    this.favorites.unshift(favoriteStory);
+
+    
+    // send post request
+    const response = await axios({
+      url: `${BASE_URL}/users/${currentUser.username}/favorites/${storyID}`,
+      method: "POST",
+      params: { token: this.loginToken },
+    });
+    console.log('response from favorites request', response);
+  }
+
+  /* Given a story ID, finds the corresponding instance of Story */
+  findStoryInstance(storyID) {
+    // refactoring: see if you can do this using .find() or other array method
+    for (let story of storyList.stories) {
+      if (story.storyId === storyID) {
+        return story
+      }
     }
   }
 }

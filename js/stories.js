@@ -23,6 +23,9 @@ function generateStoryMarkup(story) {
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
+        <span class="star">
+        <i class="far fa-star"></i>
+        </span>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -81,3 +84,21 @@ async function storySubmitAndDisplay(evt) {
 }
 
 $submitForm.on('submit', storySubmitAndDisplay);
+
+/* 
+* handles click of star next to story. When clicked, star will  change
+and story will be added to currentUser's favorites.  */
+
+function favoriteStoryAfterClick(evt) {
+  const star = $(evt.target)
+  star.toggleClass('far fas');
+
+  const storyID = star.closest('li').attr('id');
+  console.log('storyID', storyID);
+
+  currentUser.addStoryToFavorites(storyID);
+
+
+}
+
+$allStoriesList.on('click', '.star', favoriteStoryAfterClick)

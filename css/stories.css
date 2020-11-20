@@ -37,3 +37,9 @@
 .story-user {
   display: block;
 }
+
+/* Star for Favorites */
+
+.star:hover {
+  cursor: pointer;
+}
