@@ -66,6 +66,8 @@ class StoryList {
     return new StoryList(stories);
   }
 
+  
+
   /** Adds story data to API, makes a Story instance, adds it to story list.
    * - user - the current instance of User who will post the story
    * - obj of {title, author, url}
@@ -185,7 +187,6 @@ class User {
     }
   }
 
-
   /* Given a storyID, update the currentUser favorites array and
   send a post request to the server to update the user favorites information. */
 
@@ -197,7 +198,6 @@ class User {
     // update user.favorites
     this.favorites.unshift(favoriteStory);
 
-    
     // send post request
     const response = await axios({
       url: `${BASE_URL}/users/${currentUser.username}/favorites/${storyID}`,
@@ -215,5 +215,18 @@ class User {
         return story
       }
     }
+  }
+
+  async getFavorites() {
+    const response = await axios({
+      url: `${BASE_URL}/users/${this.username}`,
+      method: "GET",
+      params: { token: this.loginToken },
+    });
+    // console.log('response.data ', response.data);
+    
+    const tempFavArray = response.data.user.favorites;
+
+    this.favorites = tempFavArray.map(fav => this.findStoryInstance(fav.storyId));
   }
 }

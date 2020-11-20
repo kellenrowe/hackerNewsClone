@@ -36,6 +36,10 @@ function generateStoryMarkup(story) {
     `);
 }
 
+function generateFavoritesMarkup(favorite) {
+
+}
+
 /** Gets list of stories from server, generates their HTML, and puts on page. */
 
 function putStoriesOnPage() {
@@ -51,7 +55,6 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
-
 
 /** 
  * handles submission of submit form. 
@@ -97,7 +100,6 @@ function favoriteStoryAfterClick(evt) {
   console.log('storyID', storyID);
 
   currentUser.addStoryToFavorites(storyID);
-
 
 }
 

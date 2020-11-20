@@ -21,6 +21,9 @@ async function login(evt) {
 
   $loginForm.trigger("reset");
 
+  // remember favorites for star shading
+  await currentUser.getFavorites();
+
   saveUserCredentialsInLocalStorage();
   updateUIOnUserLogin();
 }

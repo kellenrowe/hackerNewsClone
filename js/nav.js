@@ -41,3 +41,12 @@ function navSubmitClick(evt) {
 }
 
 $navSubmit.on("click", navSubmitClick);
+
+/** Show favorites tab content hide allStoriesList */
+function showFavorites(evt) {
+  console.debug("showFavorites", evt);
+  hidePageComponents();
+  $favoriteStoriesList.show();
+}
+
+$navFavorites.on('click', showFavorites);
