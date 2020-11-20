@@ -53,18 +53,18 @@
     <div id="stories-loading-msg">Loading&hellip;</div>
 
     <!-- area for submit a new story form -->
-    <form action="handledViaAJAX" class="hidden" id="submit-form" method="post">
+    <form action="handledViaAJAX" class="hidden" id="submit-form">
       <div class="author-input">
         <label for="author-name">author</label>
-        <input id="author-name" placeholder="author name">
+        <input id="create-author" placeholder="author name">
       </div>
       <div class="title-input">
         <label for="title-name">title</label>
-        <input id="title-name" placeholder="story title">
+        <input id="create-title" placeholder="story title">
       </div>
       <div class="url-input">
         <label for="url-name">url</label>
-        <input id="url-name" placeholder="story url" type="url" value="http://google.com/">
+        <input id="create-url" placeholder="story url" type="url" value="http://google.com/">
       </div>
       <button type="submit" id="submit-btn">submit</button>
     </form>

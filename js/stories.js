@@ -60,10 +60,10 @@ async function storySubmitAndDisplay(evt) {
   console.debug("storyFromSubmitAndDisplay");
   
   evt.preventDefault();
-//  to do: RENAME CREATE-AUTHOR, etc.
-  const author = $('#author-name').val();
-  const title = $('#title-name').val();
-  const url = $('#url-name').val();
+  
+  const author = $('#create-author').val();
+  const title = $('#create-title').val();
+  const url = $('#create-url').val();
 
   const newStory = {
     author,
@@ -71,9 +71,11 @@ async function storySubmitAndDisplay(evt) {
     url
   };
 
-  await storyList.addStory(currentUser, newStory);
+  const story = await storyList.addStory(currentUser, newStory);
 
-  putStoriesOnPage();
+  const $story = generateStoryMarkup(story);
+  $allStoriesList.prepend($story);
+
   $submitForm.trigger("reset");
   $submitForm.slideUp("slow");
 }

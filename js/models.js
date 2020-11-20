@@ -97,7 +97,7 @@ class StoryList {
     const storyData = response.data.story;
     const story = new Story(storyData);
     user.ownStories.unshift(story);
-    this.stories.unshift(story);
+    this.stories.push(story);
     return story;
   }
 }
