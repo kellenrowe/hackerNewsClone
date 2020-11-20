@@ -17,7 +17,7 @@ $body.on("click", "#nav-all", navAllStories);
 function navLoginClick(evt) {
   console.debug("navLoginClick", evt);
   hidePageComponents();
-  $loginForm.show();
+  $loginForm.show(); 
   $signupForm.show();
 }
 
@@ -37,7 +37,7 @@ function updateNavOnLogin() {
 
 function navSubmitClick(evt) {
   console.debug("navSubmitClick", evt);
-  $submitForm.show();
+  $submitForm.slideToggle();
 }
 
 $navSubmit.on("click", navSubmitClick);

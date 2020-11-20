@@ -32,6 +32,7 @@ class Story {
  * List of Story instances: used by UI to show story lists in DOM.
  */
 
+
 class StoryList {
   constructor(stories) {
     this.stories = stories;
@@ -70,32 +71,34 @@ class StoryList {
    *
    * Returns the new Story instance
    */
+
+   
   async addStory(user, newStory) {
+    // console.log('newStory', newStory);
+
+    const data = {
+      token: user.loginToken,
+      story: {
+        author: newStory.author,
+        title: newStory.title,
+        url: newStory.url
+      }
+    };
+
+    // console.log('data',data);
     const response = await axios({
       url: `${BASE_URL}/stories`,
       method: "POST",
-      data: {
-        token: user.loginToken,
-        story: {
-          author: newStory.author,
-          title: newStory.title,
-          url: newStory.url
-        }
+      data
       }
-    });
-    // console.log('response from Post request addStory:',response);
+    );
+
+    console.log('response from Post request addStory:',response);
     const storyData = response.data.story;
-    const newStoryIns = new Story({
-      title: storyData.title,
-      author: storyData.author,
-      url: storyData.url,
-      username: storyData.username,
-      storyId: storyData.storyId,
-      createdAt: storyData.createdAt
-    });
-    // TO NOTE: THIS ADDS TO END OF STORIES
-    this.stories.unshift(newStoryIns);
-    return newStoryIns;
+    const story = new Story(storyData);
+    user.ownStories.unshift(story);
+    this.stories.unshift(story);
+    return story;
   }
 }
 

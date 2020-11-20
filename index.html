@@ -53,18 +53,18 @@
     <div id="stories-loading-msg">Loading&hellip;</div>
 
     <!-- area for submit a new story form -->
-    <form action="#" class="hidden" id="submit-form" method="POST">
+    <form action="handledViaAJAX" class="hidden" id="submit-form" method="post">
       <div class="author-input">
         <label for="author-name">author</label>
-        <input id="author-name" type="author-name" placeholder="author name">
+        <input id="author-name" placeholder="author name">
       </div>
       <div class="title-input">
         <label for="title-name">title</label>
-        <input id="title-name" type="title-name" placeholder="story title">
+        <input id="title-name" placeholder="story title">
       </div>
       <div class="url-input">
         <label for="url-name">url</label>
-        <input id="url-name" type="url-name" placeholder="story url">
+        <input id="url-name" placeholder="story url" type="url" value="http://google.com/">
       </div>
       <button type="submit" id="submit-btn">submit</button>
     </form>
@@ -80,7 +80,7 @@
   <section class="account-forms-container container">
 
     <!-- Login form -->
-    <form action="#" id="login-form" class="account-form hidden" method="post">
+    <form action="#" id="login-form" class="account-form hidden">
       <h4>Login</h4>
       <div class="login-input">
         <label for="login-username">username</label>
@@ -95,7 +95,7 @@
     </form>
 
     <!-- Signup form -->
-    <form action="#" id="signup-form" class="account-form hidden" method="post">
+    <form action="#" id="signup-form" class="account-form hidden">
       <h4>Create Account</h4>
       <div class="login-input">
         <label for="signup-name">name</label>

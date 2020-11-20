@@ -56,11 +56,11 @@ function putStoriesOnPage() {
  * Receives the Story instance back 
  * Puts new story in DOM. 
  * */
-function storyFromSubmitAndDisplay(evt) {
+async function storySubmitAndDisplay(evt) {
   console.debug("storyFromSubmitAndDisplay");
   
   evt.preventDefault();
-
+//  to do: RENAME CREATE-AUTHOR, etc.
   const author = $('#author-name').val();
   const title = $('#title-name').val();
   const url = $('#url-name').val();
@@ -71,10 +71,11 @@ function storyFromSubmitAndDisplay(evt) {
     url
   };
 
-  const newStoryIns = storyList.addStory(currentUser, newStory);
+  await storyList.addStory(currentUser, newStory);
 
   putStoriesOnPage();
   $submitForm.trigger("reset");
+  $submitForm.slideUp("slow");
 }
 
-$('#submit-btn').on('submit', storyFromSubmitAndDisplay);
+$submitForm.on('submit', storySubmitAndDisplay);
