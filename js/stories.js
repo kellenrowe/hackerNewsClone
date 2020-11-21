@@ -46,6 +46,10 @@ function generateStoryMarkup(story) {
     `);
 }
 
+function addTrashcanToMyStory($story) {
+  $story.prepend('<i class="far fa-trash-alt trashcan"></i>');
+}
+
 /* Gets list of current user favorites, generates HTML, and puts on page */
 // REFACTOR NOTE: could we combine the two below functions?
 
@@ -77,6 +81,24 @@ function putStoriesOnPage() {
   $allStoriesList.show();
 }
 
+/** Gets list of stories the user has added, generates their HTML, and puts on
+ * page. */
+
+function putMyStoriesOnPage() {
+  console.debug("putMyStoriesOnPage");
+
+  $myStoriesList.empty();
+
+  // loop through all of our stories and generate HTML for them
+  for (let story of currentUser.ownStories) {
+    const $story = generateStoryMarkup(story);
+    addTrashcanToMyStory($story);
+    $myStoriesList.append($story);
+  }
+
+  $myStoriesList.show();
+}
+
 /** 
  * handles submission of submit form. 
  * Gets all the data from the form, calls addStory on StoryList 
@@ -102,6 +124,7 @@ async function storySubmitAndDisplay(evt) {
 
   const $story = generateStoryMarkup(story);
   $allStoriesList.prepend($story);
+  $myStoriesList.prepend($story);
 
   $submitForm.trigger("reset");
   $submitForm.slideUp("slow");
@@ -128,3 +151,17 @@ function favoriteStoryAfterClick(evt) {
 }
 
 $allStoriesList.on('click', '.star', favoriteStoryAfterClick)
+
+/* 
+* handles click of trashcan next to story. When clicked, story will be removed from storyList.  */
+
+function removeStory(evt) {
+  const trashID = $(evt.target).closest('li').attr('id');
+  
+  const storyForTrash = storyList.findStoryInstance(trashID);
+  currentUser.removeMyStory(storyForTrash);
+  putMyStoriesOnPage();
+  storyList.removeStory(storyForTrash);
+}
+
+$myStoriesList.on('click', '.trashcan', removeStory)

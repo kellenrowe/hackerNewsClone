@@ -24,7 +24,7 @@ class Story {
   getHostName() {
     // UNIMPLEMENTED: complete this function!
     // this.url
-    return "hostname.com";
+    return this.url;
   }
 }
 
@@ -114,6 +114,14 @@ class StoryList {
       }
     }
   }
+
+  /** function updates storylist after user removes added story */
+  removeStory(story) {
+    this.stories = this.stories.filter(function(val) {
+      return val.storyId !== story.storyId
+    });
+  }
+
 }
 
 
@@ -132,7 +140,7 @@ class User {
     name,
     createdAt,
     favorites = [],
-    ownStories = []
+    stories = []
   },
     token) {
     this.username = username;
@@ -141,7 +149,7 @@ class User {
 
     // instantiate Story instances for the user's favorites and ownStories
     this.favorites = favorites.map(s => new Story(s));
-    this.ownStories = ownStories.map(s => new Story(s));
+    this.ownStories = stories.map(s => new Story(s));
 
     // store the login token on the user so it's easy to find for API calls.
     this.loginToken = token;
@@ -176,6 +184,7 @@ class User {
       method: "POST",
       data: { user: { username, password } },
     });
+    console.log('response.data.user', response.data.user);
 
     return new User(response.data.user, response.data.token);
   }
@@ -239,6 +248,19 @@ class User {
 
   checkIfInFavorites(story) {
     return this.favorites.some(fav => fav.storyId === story.storyId);
+  }
+
+  async removeMyStory(story) {
+    this.ownStories = this.ownStories.filter(function (val) {
+      return val.storyId !== story.storyId;
+    })
+
+    const response = await axios({
+      url: `${BASE_URL}/stories/${story.storyId}`,
+      method: "DELETE",
+      params: { token: this.loginToken },
+    });
+
   }
 
 }

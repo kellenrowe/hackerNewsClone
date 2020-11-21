@@ -43,3 +43,7 @@
 .star:hover {
   cursor: pointer;
 }
+
+.trashcan:hover {
+  cursor: pointer;
+}
